@@ -5,6 +5,7 @@ from sqlalchemy.orm import relationship, declarative_base
 from sqlalchemy import create_engine
 from eralchemy2 import render_er
 
+
 Base = declarative_base()
 
 class Users(Base):
@@ -17,9 +18,9 @@ class Users(Base):
 class Followers(Base):
     __tablename__ = 'followers'
     id = Column(Integer, primary_key=True)
-    user_from_id = Column(Integer, ForeignKey('user.id'))
+    user_from = Column(Integer, ForeignKey('users.id'))
     user = relationship(Users)
-    user_to_id = Column(Integer, ForeignKey('user.id'))
+    user_to = Column(Integer, ForeignKey('users.id'))
     user = relationship(Users)
 
 class Posts(Base):
@@ -28,7 +29,7 @@ class Posts(Base):
     caption = Column(String(100))
     image_url = Column(String(255), unique=True, nullable=False)
     created_at = Column(String(100))
-    user_id = Column(Integer, ForeignKey('user.id'))
+    user_id = Column(Integer, ForeignKey('users.id'))
     user = relationship(Users)
 
 class Media(Base):
@@ -36,7 +37,7 @@ class Media(Base):
     id = Column(Integer, primary_key=True)
     type = Column(Integer)
     url = Column(String(100))
-    post_id = Column(Integer, ForeignKey('post.id'))
+    post_id = Column(Integer, ForeignKey('posts.id'))
     post = relationship(Posts)
     
 class Comments(Base):
@@ -44,17 +45,17 @@ class Comments(Base):
     id = Column(Integer, primary_key=True)
     text = Column(String(255))
     created_at = Column(String(255))
-    user_id = Column(Integer, ForeignKey('user.id'))
+    user_id = Column(Integer, ForeignKey('users.id'))
     user = relationship(Users)
-    post_id = Column(Integer, ForeignKey('post.id'))
+    post_id = Column(Integer, ForeignKey('posts.id'))
     post = relationship(Posts)
 
 class Like(Base):
     __tablename__ = 'likes'
     id = Column(Integer, primary_key=True)
-    post_id = Column(Integer, ForeignKey('post.id'))
+    post_id = Column(Integer, ForeignKey('posts.id'))
     post = relationship(Posts)
-    user_id = Column(Integer, ForeignKey('user.id'))
+    user_id = Column(Integer, ForeignKey('users.id'))
     user = relationship(Users)
 
 
